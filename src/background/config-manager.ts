@@ -16,6 +16,10 @@ const CONFIG_URLs = {
         remote: `${CONFIG_URL_BASE}/dark-sites.config`,
         local: '../config/dark-sites.config',
     },
+    dynamicThemeTransparentFixes: {
+        remote: `${CONFIG_URL_BASE}/dynamic-transparent-theme-fixes.config`,
+        local: '../config/dynamic-transparent-theme-fixes.config',
+    },
     dynamicThemeFixes: {
         remote: `${CONFIG_URL_BASE}/dynamic-theme-fixes.config`,
         local: '../config/dynamic-theme-fixes.config',
@@ -55,8 +59,10 @@ export default class ConfigManager {
     private static DARK_SITES_INDEX: SiteListIndex | null;
     static DETECTOR_HINTS_INDEX: SitePropsIndex<DetectorHint> | null;
     static DETECTOR_HINTS_RAW: string | null;
-    static DYNAMIC_THEME_FIXES_INDEX: SitePropsIndex<DynamicThemeFix> | null;
     static DYNAMIC_THEME_FIXES_RAW: string | null;
+    static DYNAMIC_THEME_FIXES_INDEX: SitePropsIndex<DynamicThemeFix> | null;
+    static DYNAMIC_THEME_FIXES_TRANS_RAW: string | null;
+    static DYNAMIC_THEME_FIXES_TRANS_INDEX: SitePropsIndex<DynamicThemeFix> | null;
     static INVERSION_FIXES_INDEX: SitePropsIndex<InversionFix> | null;
     static INVERSION_FIXES_RAW: string | null;
     static STATIC_THEMES_INDEX: SitePropsIndex<StaticTheme> | null;
@@ -67,6 +73,7 @@ export default class ConfigManager {
         darkSites: null as string | null,
         detectorHints: null as string | null,
         dynamicThemeFixes: null as string | null,
+        dynamicThemeTransparentFixes: null as string | null,
         inversionFixes: null as string | null,
         staticThemes: null as string | null,
         colorSchemes: null as string | null,
@@ -76,6 +83,7 @@ export default class ConfigManager {
         darkSites: null as string | null,
         detectorHints: null as string | null,
         dynamicThemeFixes: null as string | null,
+        dynamicThemeTransparentFixes: null as string | null,
         inversionFixes: null as string | null,
         staticThemes: null as string | null,
     };
@@ -148,6 +156,17 @@ export default class ConfigManager {
         ConfigManager.handleDynamicThemeFixes();
     }
 
+    private static async loadDynamicTransparentThemeFixes({local}: LocalConfig) {
+        const fixes = await ConfigManager.loadConfig({
+            name: 'Dynamic Theme Fixes (Transparent)',
+            local,
+            localURL: CONFIG_URLs.dynamicThemeTransparentFixes.local,
+            remoteURL: CONFIG_URLs.dynamicThemeTransparentFixes.remote,
+        });
+        ConfigManager.raw.dynamicThemeTransparentFixes = fixes;
+        ConfigManager.handleDynamicThemeTransparentFixes();
+    }
+
     private static async loadInversionFixes({local}: LocalConfig) {
         const fixes = await ConfigManager.loadConfig({
             name: 'Inversion Fixes',
@@ -183,6 +202,7 @@ export default class ConfigManager {
             ConfigManager.loadDarkSites(config),
             ConfigManager.loadDetectorHints(config),
             ConfigManager.loadDynamicThemeFixes(config),
+            ConfigManager.loadDynamicTransparentThemeFixes(config),
             ConfigManager.loadInversionFixes(config),
             ConfigManager.loadStaticThemes(config),
         ]).catch((err) => console.error('Fatality', err));
@@ -214,6 +234,13 @@ export default class ConfigManager {
         const $fixes = ConfigManager.overrides.dynamicThemeFixes || ConfigManager.raw.dynamicThemeFixes || '';
         ConfigManager.DYNAMIC_THEME_FIXES_INDEX = indexSitesFixesConfig<DynamicThemeFix>($fixes);
         ConfigManager.DYNAMIC_THEME_FIXES_RAW = $fixes;
+    }
+
+
+    static handleDynamicThemeTransparentFixes(): void {
+        const $fixes = ConfigManager.overrides.dynamicThemeTransparentFixes || ConfigManager.raw.dynamicThemeTransparentFixes || '';
+        ConfigManager.DYNAMIC_THEME_FIXES_TRANS_INDEX = indexSitesFixesConfig<DynamicThemeFix>($fixes);
+        ConfigManager.DYNAMIC_THEME_FIXES_TRANS_RAW = $fixes;
     }
 
     static handleInversionFixes(): void {
