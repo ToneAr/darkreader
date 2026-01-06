@@ -10,7 +10,7 @@ const engineNames: Array<[ThemeEngine, string]> = [
     [ThemeEngine.cssFilter, getLocalMessage('engine_filter')],
     [ThemeEngine.svgFilter, getLocalMessage('engine_filter_plus')],
     [ThemeEngine.staticTheme, getLocalMessage('engine_static')],
-    [ThemeEngine.dynamicTransparentTheme, 'Transparent'],
+    [ThemeEngine.dynamicTransparentTheme, getLocalMessage('transparent')],
 ];
 
 interface EngineSwitchProps {
