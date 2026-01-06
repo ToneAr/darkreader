@@ -17,6 +17,7 @@ export default function Mode(props: {mode: ThemeEngine; onChange: (mode: ThemeEn
         {id: ThemeEngine.cssFilter, content: getLocalMessage('engine_filter')},
         {id: ThemeEngine.svgFilter, content: getLocalMessage('engine_filter_plus')},
         {id: ThemeEngine.staticTheme, content: getLocalMessage('engine_static')},
+        {id: ThemeEngine.dynamicTransparentTheme, content: 'Transparent'},
     ];
     return (
         <ThemeControl label="Mode">

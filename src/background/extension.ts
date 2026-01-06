@@ -771,6 +771,19 @@ export class Extension {
                         },
                     };
                 }
+                case ThemeEngine.dynamicTransparentTheme: {
+                    const fixes = getDynamicThemeFixesFor(url, isTopFrame, ConfigManager.DYNAMIC_THEME_FIXES_TRANS_RAW!, ConfigManager.DYNAMIC_THEME_FIXES_TRANS_INDEX!, UserStorage.settings.enableForPDF);
+                    return {
+                        type: MessageTypeBGtoCS.ADD_DYNAMIC_THEME,
+                        data: {
+                            theme,
+                            fixes,
+                            isIFrame: !isTopFrame,
+                            detectDarkTheme,
+                            detectorHints,
+                        },
+                    };
+                }
                 default:
                     throw new Error(`Unknown engine ${theme.engine}`);
             }

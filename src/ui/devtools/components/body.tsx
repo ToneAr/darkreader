@@ -22,6 +22,7 @@ export default function Body(props: DevtoolsProps): Malevic.Child {
         [ThemeEngine.staticTheme]: 'static-editor',
         [ThemeEngine.cssFilter]: 'filter-editor',
         [ThemeEngine.svgFilter]: 'filter-editor',
+        [ThemeEngine.dynamicTransparentTheme]: 'dynamic-editor',
     }[theme.engine];
     const store = context.getStore({errorText: '', activeTabId: defaultTabId});
 
